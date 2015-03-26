@@ -1,25 +1,24 @@
 // Module
 var express = require('express');
-var path = require('path');
-var arest = require('arest');
-
-// Create app
 var app = express();
+
+// Define port
 var port = 3700;
 
-// Set views
-app.use(express.static(path.join(__dirname, 'public')));
-app.use(express.static(path.join(__dirname, 'views')));
+// View engine
+app.set('view engine', 'jade');
 
-// Serve files
+// Set public folder
+app.use(express.static(__dirname + '/public'));
+
+// Serve interface
 app.get('/interface', function(req, res){
-  res.sendfile('views/interface.html')
+  res.render('interface');
 });
 
-// API access
-app.get("/send", function(req, res){
-  arest.send(req,res);
-});
+// Node-aREST
+var rest = require("arest")(app);
+rest.addDevice('http','192.168.1.102');
 
 // Start server
 app.listen(port);

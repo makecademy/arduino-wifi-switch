@@ -1,34 +1,41 @@
-// Hardware parameters
-type = 'wifi';
-address = 'arduino.local';
+// Function to motor direction
+$(document).ready(function() {
 
-setInterval(function() {
+  // Timeout
+  $.ajaxSetup({
+    timeout: 1500 //Time in milliseconds
+  });
+
+  // Function to control the lamp
+  $("#1").click(function() {
+    $.getq('queue', 'smart_lamp/digital/8/1');
+  });
+
+  $("#2").click(function() {
+    $.getq('queue', 'smart_lamp/digital/8/0');
+  });
 
   // Update power
-  json_data = send(type, address, '/power');
-  $("#powerDisplay").html("Power: " + json_data.power + "W");    
+  function refreshPower() {
+    $.getq('queue', 'smart_lamp/power', function(json_data) {
+    
 
-  // Update status
-  if (json_data.connected == 1){
-    $("#status").html("Device Online");
-    $("#status").css("color","green");    
+      $("#powerDisplay").html("Power: " + "32" + "W");    
+
+      // Update status
+      if (json_data.connected == 1){
+        $("#status").html("Device Online");
+        $("#status").css("color","green");    
+      }
+      else {
+        $("#status").html("Device Offline");
+        $("#status").css("color","red");     
+      }
+
+    });
   }
-  else {
-    $("#status").html("Device Offline");
-    $("#status").css("color","red");     
-  }
 
-}, 5000);
+  refreshPower();
+  setInterval(refreshPower, 5000);
 
-// Function to control the lamp
-function buttonClick(clicked_id){
-
-  if (clicked_id == "1"){
-    send(type, address, "/digital/8/1");  
-  } 
-
-  if (clicked_id == "2"){
-    send(type, address, "/digital/8/0");  
-  } 
-
-}
+});
