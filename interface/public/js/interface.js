@@ -20,7 +20,7 @@ $(document).ready(function() {
     $.getq('queue', 'smart_lamp/power', function(json_data) {
     
 
-      $("#powerDisplay").html("Power: " + "32" + "W");    
+      $("#powerDisplay").html("Power: " + json_data.power + " W");    
 
       // Update status
       if (json_data.connected == 1){

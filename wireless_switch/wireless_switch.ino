@@ -28,8 +28,8 @@ Adafruit_CC3000 cc3000 = Adafruit_CC3000(ADAFRUIT_CC3000_CS, ADAFRUIT_CC3000_IRQ
 aREST rest = aREST();
 
 // Your WiFi SSID and password                                         
-#define WLAN_SSID       "yourWiFiNetworkName"
-#define WLAN_PASS       "yourPassword"
+#define WLAN_SSID       "your_wifi_name"
+#define WLAN_PASS       "your_wifi_password"
 #define WLAN_SECURITY   WLAN_SEC_WPA2
 
 // The port to listen for incoming TCP connections 
@@ -47,7 +47,7 @@ int power;
 void setup(void)
 {  
   // Start Serial
-  Serial.begin(115200);
+  Serial.begin(9600);
   
   // Init variables and expose them to REST API
   rest.variable("power",&power);
@@ -63,10 +63,12 @@ void setup(void)
   rest.set_name("smart_lamp");
   
   // Set up CC3000 and get connected to the wireless network.
+  Serial.print(F("Initializing WiFi ..."));
   if (!cc3000.begin())
   {
     while(1);
   }
+  Serial.println(F("done."));
   
   if (!cc3000.connectToAP(WLAN_SSID, WLAN_PASS, WLAN_SECURITY)) {
     while(1);
@@ -136,7 +138,7 @@ float getSensorValue(int pin)
 {
   int sensorValue;
   float avgSensor = 0;
-  int nb_measurements = 100;
+  int nb_measurements = 500;
   for (int i = 0; i < nb_measurements; i++) {
     sensorValue = analogRead(pin);
     avgSensor = avgSensor + float(sensorValue);
