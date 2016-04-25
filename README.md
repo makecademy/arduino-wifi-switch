@@ -4,3 +4,4 @@ This is the code for the "Wireless Power Switch with Arduino & the CC3000 WiFi C
 
 You can find the article on the Open Home Automation website:
 
+[https://www.openhomeautomation.net/wireless-relay-arduino-wifi/](https://www.openhomeautomation.net/wireless-relay-arduino-wifi/)
